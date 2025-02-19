@@ -7,7 +7,24 @@
 const Queue = require('../lib/Queue')
 
 function processReturns(queue) {
-  // your code here
+  const tempQueue = new Queue();
+
+  while (! queue.isEmpty()) {
+    const personRecord = queue.dequeue();
+    let totalDaysLate = 0; 
+
+    for (i = 0 ; i < personRecord.books.length ; i++ ) {
+      totalDaysLate += personRecord.books[i].daysLate;
+    }
+
+    if (totalDaysLate > 0) {
+      tempQueue.enqueue(personRecord);
+    } 
+  }
+
+  while (! tempQueue.isEmpty()) {
+    queue.enqueue(tempQueue.dequeue());
+  }
 }
 
 const returns = new Queue();
